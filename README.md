@@ -103,3 +103,8 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+## Contributing
+Contributions are welcome. Please read [contributing](CONTRIBUTING) before implementation.
+
+Thank you for developing with the Multimodal Live API! We’re excited to see what you create.
