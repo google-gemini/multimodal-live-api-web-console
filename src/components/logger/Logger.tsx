@@ -49,7 +49,7 @@ const LogEntry = ({
     message,
   }: {
     message: StreamingLog["message"];
-  }) => ReactNode;
+  }) => JSX.Element;
 }): JSX.Element => (
   <li
     className={cn(
