@@ -1,0 +1,7 @@
+{
+  "name": "Multimodal Live API - Web console",
+  "description": "React-based starter app for using the Multimodal Live API over a websocket",
+  "categories": ["AI & ML"],
+  "icon": "https://www.gstatic.com/monospace/231128/logo_gemini_512.png",
+  "publisher": "Google LLC"
+}

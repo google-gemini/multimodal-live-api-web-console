@@ -8,7 +8,9 @@
     pkgs.nodejs_20
   ];
   # Sets environment variables in the workspace
-  env = {};
+  env = {
+    REACT_APP_GEMINI_API_KEY = "";
+  };
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
@@ -30,8 +32,11 @@
       enable = true;
       previews = {
         web = {
-          command = ["npm" "run" "start" "--" "--port" "$PORT" "--hostname" "0.0.0.0"];
+          command = ["npm" "run" "start"];
           manager = "web";
+          env = {
+            PORT = "$PORT";
+          };
         };
       };
     };

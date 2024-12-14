@@ -1,6 +1,6 @@
 # Multimodal Live API - Web console
 
-<a href="https://idx.google.com/import?url=https%3A%2F%2Fgithub.com%2Fgoogle-gemini%2Fmultimodal-live-api-web-console">
+<a href="https://idx.google.com/new?template=https://github.com/google-gemini/multimodal-live-api-web-console">
   <picture>
     <source
       media="(prefers-color-scheme: dark)"
