@@ -1,5 +1,20 @@
 # Multimodal Live API - Web console
 
+<a href="https://idx.google.com/import?url=https%3A%2F%2Fgithub.com%2Fgoogle-gemini%2Fmultimodal-live-api-web-console">
+  <picture>
+    <source
+      media="(prefers-color-scheme: dark)"
+      srcset="https://cdn.idx.dev/btn/try_light_32.svg">
+    <source
+      media="(prefers-color-scheme: light)"
+      srcset="https://cdn.idx.dev/btn/try_dark_32.svg">
+    <img
+      height="32"
+      alt="Try in IDX"
+      src="https://cdn.idx.dev/btn/try_purple_32.svg">
+  </picture>
+</a>
+
 This repository contains a react-based starter app for using the [Multimodal Live API](https://ai.google.dev/gemini-api) over a websocket. It provides modules for streaming audio playback, recording user media such as from a microphone, webcam or screen capture as well as a unified log view to aid in development of your application.
 
 We have provided several example applications on other branches of this repository:
