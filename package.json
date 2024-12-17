@@ -52,6 +52,8 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/lodash": "^4.17.13",
+    "pdfjs-dist": "3.11.174",
+    "@types/pdfjs-dist": "^2.10.378",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
   },

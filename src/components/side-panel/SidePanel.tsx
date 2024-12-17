@@ -15,13 +15,14 @@
  */
 
 import cn from "classnames";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { RiSidebarFoldLine, RiSidebarUnfoldLine } from "react-icons/ri";
 import Select from "react-select";
 import { useLiveAPIContext } from "../../contexts/LiveAPIContext";
 import { useLoggerStore } from "../../lib/store-logger";
 import Logger, { LoggerFilterType } from "../logger/Logger";
 import "./side-panel.scss";
+import { PdfUploader } from './PdfUploader';
 
 const filterOptions = [
   { value: "conversations", label: "Conversations" },
@@ -42,6 +43,7 @@ export default function SidePanel() {
     label: string;
   } | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [pdfContext, setPdfContext] = useState<string | null>(null);
 
   //scroll the log to the bottom when new logs come in
   useEffect(() => {
@@ -63,8 +65,22 @@ export default function SidePanel() {
     };
   }, [client, log]);
 
+  const handlePdfUpload = useCallback((pdfContent: string) => {
+    setPdfContext(pdfContent);
+    
+    // Send initial context to the model
+    client.send([{
+      text: `I have uploaded a PDF document. Here's its content:\n${pdfContent}`
+    }]);
+  }, [client]);
+
   const handleSubmit = () => {
-    client.send([{ text: textInput }]);
+    const messageToSend = textInput;
+    client.send([{ 
+      text: pdfContext 
+        ? `Context from PDF:\n${pdfContext}\n\nUser message:\n${messageToSend}`
+        : messageToSend 
+    }]);
 
     setTextInput("");
     if (inputRef.current) {
@@ -120,6 +136,7 @@ export default function SidePanel() {
             : `⏸️${open ? " Paused" : ""}`}
         </div>
       </section>
+      <PdfUploader onPdfUpload={handlePdfUpload} />
       <div className="side-panel-container" ref={loggerRef}>
         <Logger
           filter={(selectedOption?.value as LoggerFilterType) || "none"}
