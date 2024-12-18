@@ -14,28 +14,28 @@
  * limitations under the License.
  */
 
-import { useRef, useState } from "react";
-import "./App.scss";
-import { LiveAPIProvider } from "./contexts/LiveAPIContext";
-import SidePanel from "./components/side-panel/SidePanel";
-import { Altair } from "./components/altair/Altair";
-import ControlTray from "./components/control-tray/ControlTray";
-import cn from "classnames";
+import { useRef, useState } from 'react'
+import './App.scss'
+import { LiveAPIProvider } from './contexts/LiveAPIContext'
+import SidePanel from './components/side-panel/SidePanel'
+import { Altair } from './components/altair/Altair'
+import ControlTray from './components/control-tray/ControlTray'
+import cn from 'classnames'
 
-const API_KEY = process.env.REACT_APP_GEMINI_API_KEY as string;
-if (typeof API_KEY !== "string") {
-  throw new Error("set REACT_APP_GEMINI_APIK_KEY in .env");
+const API_KEY = process.env.REACT_APP_GEMINI_API_KEY as string
+if (typeof API_KEY !== 'string') {
+  throw new Error('set REACT_APP_GEMINI_API_KEY in .env')
 }
 
-const host = "generativelanguage.googleapis.com";
-const uri = `wss://${host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`;
+const host = 'generativelanguage.googleapis.com'
+const uri = `wss://${host}/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`
 
 function App() {
   // this video reference is used for displaying the active stream, whether that is the webcam or screen capture
   // feel free to style as you see fit
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null)
   // either the screen capture, the video or null, if null we hide it
-  const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
+  const [videoStream, setVideoStream] = useState<MediaStream | null>(null)
 
   return (
     <div className="App">
@@ -47,7 +47,7 @@ function App() {
               {/* APP goes here */}
               <Altair />
               <video
-                className={cn("stream", {
+                className={cn('stream', {
                   hidden: !videoRef.current || !videoStream,
                 })}
                 ref={videoRef}
@@ -56,18 +56,14 @@ function App() {
               />
             </div>
 
-            <ControlTray
-              videoRef={videoRef}
-              supportsVideo={true}
-              onVideoStreamChange={setVideoStream}
-            >
+            <ControlTray videoRef={videoRef} supportsVideo={true} onVideoStreamChange={setVideoStream}>
               {/* put your own buttons here */}
             </ControlTray>
           </main>
         </div>
       </LiveAPIProvider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
