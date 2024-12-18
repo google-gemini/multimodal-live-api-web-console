@@ -18,13 +18,13 @@ import { useRef, useState } from "react";
 import "./App.scss";
 import { LiveAPIProvider } from "./contexts/LiveAPIContext";
 import SidePanel from "./components/side-panel/SidePanel";
-import { Altair } from "./components/altair/Altair";
+import { GenList } from "./components/genlist/GenList";
 import ControlTray from "./components/control-tray/ControlTray";
 import cn from "classnames";
 
 const API_KEY = process.env.REACT_APP_GEMINI_API_KEY as string;
 if (typeof API_KEY !== "string") {
-  throw new Error("set REACT_APP_GEMINI_APIK_KEY in .env");
+  throw new Error("set REACT_APP_GEMINI_API_KEY in .env");
 }
 
 const host = "generativelanguage.googleapis.com";
@@ -45,7 +45,7 @@ function App() {
           <main>
             <div className="main-app-area">
               {/* APP goes here */}
-              <Altair />
+              <GenList />
               <video
                 className={cn("stream", {
                   hidden: !videoRef.current || !videoStream,

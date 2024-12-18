@@ -59,11 +59,7 @@ body {
 
 .material-symbols-outlined {
   &.filled {
-    font-variation-settings:
-      "FILL" 1,
-      "wght" 400,
-      "GRAD" 0,
-      "opsz" 24;
+    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
   }
 }
 
@@ -111,7 +107,8 @@ body {
   flex-direction: column;
 }
 
-@media (prefers-reduced-motion: no-preference) {}
+@media (prefers-reduced-motion: no-preference) {
+}
 
 .streaming-console {
   background: var(--Neutral-5);
@@ -129,7 +126,7 @@ body {
   .disabled {
     pointer-events: none;
 
-    >* {
+    > * {
       pointer-events: none;
     }
   }
@@ -151,6 +148,8 @@ body {
     flex: 1;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    width: 100%;
   }
 
   .function-call {

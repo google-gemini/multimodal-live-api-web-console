@@ -1,0 +1,51 @@
+.container {
+  .heading-container {
+    position: relative;
+    margin: 2rem 0 1rem 0;
+    padding: 0.25rem;
+    border-radius: 12px;
+    outline: 1px solid var(--Neutral-5);
+    outline-offset: 2px;
+
+    h1 {
+      text-align: center;
+      color: var(--Neutral-100, #fff);
+      text-align: center;
+      font-family: "Space Mono";
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+
+  .list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 2.5rem;
+    text-align: left;
+    border-radius: 12px;
+    outline: 1px solid var(--Neutral-5);
+    outline-offset: 4px;
+  }
+
+  .glow {
+    animation: glowBlue 1.5s;
+  }
+
+  @keyframes glowBlue {
+    0% {
+      outline: 1px solid var(--Neutral-5);
+    }
+    25% {
+      outline: 1px solid var(--Blue-500);
+    }
+    75% {
+      outline: 1px solid var(--Blue-500);
+    }
+    100% {
+      outline: 1px solid var(--Neutral-5);
+    }
+  }
+}

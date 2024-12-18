@@ -1,0 +1,42 @@
+.chips-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  height: 32px;
+  padding: 0px 14px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  color: var(--Neutral-80, #c3c6c7);
+  background: none;
+  border-radius: 4px;
+  border: 1px solid var(--Neutral-30, #404547);
+  background: var(--Neutral-10, #1c1f21);
+  font-family: "Space Mono";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  transition: background 150ms ease-out;
+}
+
+p {
+  width: 100%;
+}
+
+.chip:hover {
+  background: var(--Neutral-20, #2a2f31);
+  cursor: pointer;
+}
+
+.chip:active {
+  background: var(--Neutral-00, #000);
+}
