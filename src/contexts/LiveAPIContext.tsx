@@ -18,6 +18,7 @@ import { createContext, FC, ReactNode, useContext } from "react";
 import { useLiveAPI, UseLiveAPIResults } from "../hooks/use-live-api";
 
 const LiveAPIContext = createContext<UseLiveAPIResults | undefined>(undefined);
+const PersonaContext = createContext({ persona: "female" });
 
 export type LiveAPIProviderProps = {
   children: ReactNode;

@@ -53,9 +53,16 @@
 }
 
 body {
-  font-family: "Space Mono", monospace;
+  font-family: 'Noto Sans Thai', sans-serif;
   background: var(--Neutral-30);
 }
+
+/* Example custom usage */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Noto Sans Thai', sans-serif;
+  font-weight: 700; /* Adjust weight as needed */
+}
+
 
 .material-symbols-outlined {
   &.filled {

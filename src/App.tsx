@@ -33,6 +33,8 @@ const uri = `wss://${host}/ws/google.ai.generativelanguage.v1alpha.GenerativeSer
 function App() {
   // this video reference is used for displaying the active stream, whether that is the webcam or screen capture
   // feel free to style as you see fit
+  const [isConsoleVisible, setConsoleVisible] = useState(false); // ค่าเริ่มต้นซ่อน Console
+  const [selectedFunction, setSelectedFunction] = useState("All"); // Default ค่าเป็น "All"
   const videoRef = useRef<HTMLVideoElement>(null);
   // either the screen capture, the video or null, if null we hide it
   const [videoStream, setVideoStream] = useState<MediaStream | null>(null);

@@ -13,7 +13,7 @@
   width: 48px;
   height: 48px;
   border-radius: 18px;
-  border: 1px solid rgba(0, 0, 0, 0);
+  border: 1px solid rgba(255, 255, 255, 0);
   user-select: none;
   cursor: pointer;
 
@@ -116,8 +116,8 @@
 
   .disabled .action-button,
   .action-button.disabled {
-    background: rgba(0, 0, 0, 0);
-    border: 1px solid var(--Neutral-30, #404547);
+    background: rgba(255, 128, 0, 0);
+    border: 1px solid var(--Neutral-30, #8e8e8f);
     color: var(--Neutral-30);
   }
 
