@@ -67,7 +67,7 @@ function AltairComponent() {
     const onToolCall = (toolCall: ToolCall) => {
       console.log(`got toolcall`, toolCall);
       const fc = toolCall.functionCalls.find(
-        (fc) => fc.name === declaration.name,
+        (fc) => fc.name === declaration.name
       );
       if (fc) {
         const str = (fc.args as any).json_graph;
@@ -80,11 +80,11 @@ function AltairComponent() {
           () =>
             client.sendToolResponse({
               functionResponses: toolCall.functionCalls.map((fc) => ({
-                response: { output: { sucess: true } },
+                response: { output: { success: true } },
                 id: fc.id,
               })),
             }),
-          200,
+          200
         );
       }
     };
