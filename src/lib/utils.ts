@@ -42,24 +42,19 @@ function unlockAudioContext(audioCtx:AudioContext) {
 }
 
 export async function audioContext(options?: GetAudioContextOptions) : Promise<AudioContext> {
-    try {
-      if (options?.id && map.has(options.id)) {
-        const ctx = map.get(options.id);
-        if (ctx) {
-          unlockAudioContext(ctx);
-          return ctx;
-        }
+    if (options?.id && map.has(options.id)) {
+      const ctx = map.get(options.id);
+      if (ctx) {
+        unlockAudioContext(ctx);
+        return ctx;
       }
-      const ctx = new AudioContext(options);
-      if (options?.id) {
-        map.set(options.id, ctx);
-      }
-      unlockAudioContext(ctx);
-      return ctx;
-    } catch (e) {
-      console.log(e);
-      throw e;
     }
+    const ctx = new AudioContext(options);
+    if (options?.id) {
+      map.set(options.id, ctx);
+    }
+    unlockAudioContext(ctx);
+    return ctx;
 }
 
 export const blobToJSON = (blob: Blob) =>
