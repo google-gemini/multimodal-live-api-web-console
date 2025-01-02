@@ -51,7 +51,6 @@ export async function audioContext(options?: GetAudioContextOptions) : Promise<A
         }
       }
       const ctx = new AudioContext(options);
-      console.log('new audio context 1', options);
       if (options?.id) {
         map.set(options.id, ctx);
       }
