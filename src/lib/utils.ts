@@ -19,48 +19,49 @@ export type GetAudioContextOptions = AudioContextOptions & {
 };
 
 const map: Map<string, AudioContext> = new Map();
+let interacted = false;
 
-export const audioContext: (
-  options?: GetAudioContextOptions,
-) => Promise<AudioContext> = (() => {
-  const didInteract = new Promise((res) => {
-    window.addEventListener("pointerdown", () => {res(true);}, { once: true });
-    window.addEventListener("keydown", () => {res(true);}, { once: true });
-  });
+/**
+ * Waits for a user interfaction and then resumes an audio context.
+ * The web-browser prevents audio context from being used before user interaction
+ * to stop web sites abusing auto play, or auto record.
+ * @param audioCtx the audio context to unlock
+ */
+function unlockAudioContext(audioCtx:AudioContext) {
+  if (audioCtx.state !== 'suspended') {
+    return;
+  }
+  if(interacted) {
+    audioCtx.resume();
+    return;
+  }
+  const events = ['touchstart','touchend', 'mousedown','keydown', 'pointerdown'];
+  events.forEach(e => window.addEventListener(e, unlock, false));
+  function unlock() { interacted=true; console.log('unlock');audioCtx.resume().then(clean); }
+  function clean() { events.forEach(e => window.removeEventListener(e, unlock)); }
+}
 
-  return async (options?: GetAudioContextOptions) => {
+export async function audioContext(options?: GetAudioContextOptions) : Promise<AudioContext> {
     try {
-      const a = new Audio();
-      a.src =
-        "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA";
-      await a.play();
       if (options?.id && map.has(options.id)) {
         const ctx = map.get(options.id);
         if (ctx) {
+          unlockAudioContext(ctx);
           return ctx;
         }
       }
       const ctx = new AudioContext(options);
+      console.log('new audio context 1', options);
       if (options?.id) {
         map.set(options.id, ctx);
       }
+      unlockAudioContext(ctx);
       return ctx;
     } catch (e) {
-      await didInteract;
-      if (options?.id && map.has(options.id)) {
-        const ctx = map.get(options.id);
-        if (ctx) {
-          return ctx;
-        }
-      }
-      const ctx = new AudioContext(options);
-      if (options?.id) {
-        map.set(options.id, ctx);
-      }
-      return ctx;
+      console.log(e);
+      throw e;
     }
-  };
-})();
+}
 
 export const blobToJSON = (blob: Blob) =>
   new Promise((resolve, reject) => {
