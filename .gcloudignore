@@ -1,5 +1,18 @@
-# Ignore everything except app.yaml and the build directory
+# Ignore everything except the required files
 *
 !app.yaml
 !build
 !build/**
+!Dockerfile
+!package.json
+!package-lock.json
+!src
+!src/**
+!public
+!public/**
+!tsconfig.json
+!*.scss
+!*.css
+!.env
+!server.js
+!privatekey.pem

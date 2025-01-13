@@ -75,10 +75,19 @@ export class MultimodalLiveClient extends EventEmitter<MultimodalLiveClientEvent
 
   constructor({ url, apiKey }: MultimodalLiveAPIClientConnection) {
     super();
+
+    // DEBUG: log out what we received
+    console.log("[DEBUG] Constructor: Received apiKey =", apiKey);
+
+
     url =
       url ||
       `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent`;
     url += `?key=${apiKey}`;
+
+    // DEBUG: log the final wss URL
+    console.log("[DEBUG] Constructor: final WebSocket URL =", url);
+
     this.url = url;
     this.send = this.send.bind(this);
   }
@@ -93,8 +102,12 @@ export class MultimodalLiveClient extends EventEmitter<MultimodalLiveClientEvent
   }
 
   connect(config: LiveConfig): Promise<boolean> {
-    this.config = config;
+    // DEBUG: Check if we still have the same `this.url`
+    console.log("[DEBUG] connect() called. Using WebSocket URL =", this.url);
+    console.log("[DEBUG] connect() config =", config);
 
+    
+    this.config = config;
     const ws = new WebSocket(this.url);
 
     ws.addEventListener("message", async (evt: MessageEvent) => {
