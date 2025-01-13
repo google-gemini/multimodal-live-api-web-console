@@ -1,11 +1,14 @@
-// server.js
-
 import express from 'express';
 import path from 'path';
 import fetch from 'node-fetch'; // if Node < 18
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Load your private key and client ID
 const privateKey = fs.readFileSync('privatekey.pem', 'utf8');

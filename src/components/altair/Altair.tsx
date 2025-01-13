@@ -189,7 +189,7 @@ function AltairComponent() {
         try {
         //   // 1) ***** GET THE TOKEN FROM server.js *****
         //   //    (uncomment below lines to use server-based token approach)
-          const tokenResponse = await fetch("http://localhost:3001/getToken");
+          const tokenResponse = await fetch("http://localhost:8080/getToken");
           if (!tokenResponse.ok) {
             throw new Error(`Token fetch error: ${await tokenResponse.text()}`);
           }
@@ -276,7 +276,7 @@ function AltairComponent() {
         try {
           // 3) Retrieve an OAuth token from server.js (or use hardcoded if needed)
           
-          const tokenResponse = await fetch("http://localhost:3001/getToken");
+          const tokenResponse = await fetch("http://localhost:8080/getToken");
           if (!tokenResponse.ok) {
             throw new Error(`Token fetch error: ${await tokenResponse.text()}`);
           }
