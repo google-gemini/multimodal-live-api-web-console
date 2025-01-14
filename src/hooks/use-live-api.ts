@@ -23,6 +23,7 @@ import { LiveConfig } from "../multimodal-live-types";
 import { AudioStreamer } from "../lib/audio-streamer";
 import { audioContext } from "../lib/utils";
 import VolMeterWorket from "../lib/worklets/vol-meter";
+const { ipcRenderer } = window.require('electron');
 
 export type UseLiveAPIResults = {
   client: MultimodalLiveClient;
@@ -66,9 +67,42 @@ export function useLiveAPI({
     }
   }, [audioStreamerRef]);
 
+  const connect = useCallback(async () => {
+    console.log(JSON.stringify(config));
+    if (!config) {
+      throw new Error("config has not been set");
+    }
+    client.disconnect();
+    await client.connect(config);
+    setConnected(true);
+  }, [client, setConnected, config]);
+
+  const disconnect = useCallback(async () => {
+    client.disconnect();
+    setConnected(false);
+  }, [setConnected, client]);
+
   useEffect(() => {
-    const onClose = () => {
+    const onClose = (ev: CloseEvent) => {
       setConnected(false);
+      
+      // Forward session errors to main process
+      if (ev.reason && ev.reason.toLowerCase().includes('error')) {
+        ipcRenderer.send('session-error', ev.reason || 'Session ended unexpectedly');
+      }
+
+      // TODO: Reconnect correctly
+      // Check if close was due to an error
+      // if (ev.reason && ev.reason.toLowerCase().includes('error')) {
+      //   // Wait a bit before attempting reconnect
+      //   setTimeout(async () => {
+      //     try {
+      //       await connect();
+      //     } catch (err) {
+      //       console.error('Failed to reconnect:', err);
+      //     }
+      //   }, 1000);
+      // }
     };
 
     const stopAudioStreamer = () => audioStreamerRef.current?.stop();
@@ -87,22 +121,7 @@ export function useLiveAPI({
         .off("interrupted", stopAudioStreamer)
         .off("audio", onAudio);
     };
-  }, [client]);
-
-  const connect = useCallback(async () => {
-    console.log(config);
-    if (!config) {
-      throw new Error("config has not been set");
-    }
-    client.disconnect();
-    await client.connect(config);
-    setConnected(true);
-  }, [client, setConnected, config]);
-
-  const disconnect = useCallback(async () => {
-    client.disconnect();
-    setConnected(false);
-  }, [setConnected, client]);
+  }, [client, connect]);
 
   return {
     client,

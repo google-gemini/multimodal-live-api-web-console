@@ -130,7 +130,7 @@ export class MultimodalLiveClient extends EventEmitter<MultimodalLiveClientEvent
 
         ws.removeEventListener("error", onError);
         ws.addEventListener("close", (ev: CloseEvent) => {
-          console.log(ev);
+          console.log(JSON.stringify(ev));
           this.disconnect(ws);
           let reason = ev.reason || "";
           if (reason.toLowerCase().includes("error")) {

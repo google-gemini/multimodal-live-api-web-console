@@ -124,3 +124,79 @@ Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 _This is an experiment showcasing the Multimodal Live API, not an official Google product. We’ll do our best to support and maintain this experiment but your mileage may vary. We encourage open sourcing projects as a way of learning from each other. Please respect our and other creators' rights, including copyright and trademark rights when present, when sharing these works and creating derivative work. If you want more info on Google's policy, you can find that [here](https://developers.google.com/terms/site-policies)._
+
+## Running the electron app
+
+Copy the .env.template file to .env and add your Gemini API key.
+
+```bash
+cp .env.template .env
+```
+
+Run the following commands to run the electron app:
+
+```bash
+npm install
+npm run electron-dev
+```
+
+## Building the electron app
+
+_Note: I had to install `xcode` to get this to work, since it required the `unordered_map` cpp header file. The xcode-select cli tool was not enough._
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate && python3 -m pip install setuptools
+npm run electron-build
+```
+
+## Sign and Notarize
+
+0. You need to have an Apple Developer account.
+
+1. You need to install the following certificates:
+
+a. From Apple's [Certificate Authority](https://www.apple.com/certificateauthority/), download the following - Apple Root CA - G2 - Apple Worldwide Developer Relations CA - G2 - Apple Worldwide Developer Relations Certificate Authority - Developer ID Certification Authority
+b. A developer ID Application certificate from [here](https://developer.apple.com/account/resources/certificates/add). You need to generate a Certificate Signing Request (CSR) from your mac to generate the certificate.
+
+2. Create an App Specific Password from [here](https://appleid.apple.com/account/manage)
+
+3. Set the following environment variables:
+
+```bash
+export APPLE_ID="sahil.marwaha@trilogy.com" # Your Apple email
+export APPLE_APP_SPECIFIC_PASSWORD="YOUR_APP_SPECIFIC_PASSWORD"  # Generate this at appleid.apple.com
+export APPLE_ID_PASSWORD="YOUR_APP_SPECIFIC_PASSWORD"  # same as above
+export APPLE_TEAM_ID="KRY77A2RML" # Your Apple Team ID
+```
+
+4. Add the following to your package.json:  
+   a. In your mac build
+
+   ```json
+   "mac": {
+     "hardenedRuntime": true,
+     "gatekeeperAssess": false,
+     "entitlements": "electron/entitlements.mac.plist",
+     "entitlementsInherit": "electron/entitlements.mac.plist",
+     "identity": "G-DEV FZ-LLC (KRY77A2RML)",
+     "forceCodeSigning": true
+   }
+   ```
+
+   b. For notarisation,
+
+   ```json
+   "afterSign": "electron-builder-notarize"
+   ```
+
+   And add this to your dev dependencies:
+
+   ```bash
+   npm install electron-builder-notarize --save-dev
+   ```
+
+5. Run the following command to build the app, it will sign and notarize the app as well:
+
+```bash
+source .venv/bin/activate && npm run electron-build
+```

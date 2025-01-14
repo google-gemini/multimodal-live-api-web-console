@@ -1,0 +1,17 @@
+.subtitles-overlay {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 24px;
+  font-weight: 500;
+  text-align: center;
+  max-width: 80%;
+  -webkit-app-region: drag;
+  user-select: none;
+  z-index: 1000;
+} 

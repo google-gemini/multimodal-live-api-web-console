@@ -1,11 +1,19 @@
 {
-  "name": "multimodal-live-api-web-console",
+  "name": "screensense-ai",
   "version": "0.1.0",
+  "description": "An AI assistant that lives in your computer, helping you with daily tasks through screen interaction, translation, and other capabilities.",
+  "author": {
+    "name": "Sahil Marwaha"
+  },
+  "main": "./build/electron/main.js",
   "dependencies": {
+    "@nut-tree-fork/nut-js": "^4.2.3",
+    "@parcel/watcher": "^2.1.0",
     "classnames": "^2.5.1",
     "dotenv-flow": "^4.1.0",
     "eventemitter3": "^5.0.1",
     "lodash": "^4.17.21",
+    "posthog-js": "^1.205.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
@@ -15,16 +23,108 @@
     "sass": "^1.80.6",
     "vega": "^5.30.0",
     "vega-embed": "^6.29.0",
-    "vega-lite": "^5.22.0",
+    "vega-lite": "^5.23.0",
     "web-vitals": "^2.1.4",
     "zustand": "^5.0.1"
   },
   "scripts": {
-    "start-https": "HTTPS=true react-scripts start",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "build:react": "cross-env PUBLIC_URL=./ NODE_ENV=production react-scripts build",
+    "electron:tsc": "tsc -p electron/tsconfig.json",
+    "electron-dev": "npm run electron:tsc && concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && cross-env NODE_ENV=development electron .\"",
+    "electron-build": "cross-env NODE_ENV=production npm run build:react && npm run electron:tsc && electron-builder",
+    "electron-pack": "cross-env NODE_ENV=production electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.screensense.ai",
+    "productName": "ScreenSense AI",
+    "files": [
+      "build/**/*",
+      "electron/**/*",
+      "package.json",
+      "public/icons/*",
+      "node_modules"
+    ],
+    "directories": {
+      "buildResources": "public",
+      "output": "dist"
+    },
+    "extraMetadata": {
+      "main": "./build/electron/main.js"
+    },
+    "asar": true,
+    "asarUnpack": [
+      "build/**/*"
+    ],
+    "mac": {
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "electron/entitlements.mac.plist",
+      "entitlementsInherit": "electron/entitlements.mac.plist",
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "We need access to your microphone for audio capture functionality.",
+        "NSCameraUsageDescription": "We need access to your camera for video capture functionality.",
+        "NSAppleEventsUsageDescription": "We need to control system events for keyboard shortcuts and automation.",
+        "NSScreenCaptureUsageDescription": "We need screen recording access to capture your screen for AI assistance."
+      },
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "identity": "G-DEV FZ-LLC (KRY77A2RML)",
+      "forceCodeSigning": true
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "./public/icons/icon.ico"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Development",
+      "icon": "./public/icons/icon.png"
+    },
+    "afterSign": "electron-builder-notarize",
+    "extraResources": [
+      {
+        "from": ".env",
+        "to": ".env"
+      }
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -45,20 +145,29 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@google/generative-ai": "^0.21.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/lodash": "^4.17.13",
-    "@types/node": "^16.18.119",
+    "@types/node": "^16.18.123",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^33.3.1",
+    "electron-builder": "^25.1.8",
+    "electron-builder-notarize": "^1.5.2",
+    "path-browserify": "^1.0.1",
+    "react-app-rewired": "^2.2.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "typescript": "5.1.6",
+    "wait-on": "^8.0.1"
   },
   "overrides": {
-    "typescript": "^5.6.3"
+    "typescript": "5.1.6"
   }
 }
