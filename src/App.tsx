@@ -56,11 +56,7 @@ function App() {
               />
             </div>
 
-            <ControlTray
-              videoRef={videoRef}
-              supportsVideo={true}
-              onVideoStreamChange={setVideoStream}
-            >
+            <ControlTray>
               {/* put your own buttons here */}
             </ControlTray>
           </main>
