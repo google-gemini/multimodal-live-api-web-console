@@ -30,6 +30,9 @@ export type ControlTrayProps = {
   children?: ReactNode;
   supportsVideo: boolean;
   onVideoStreamChange?: (stream: MediaStream | null) => void;
+  role: string;
+  skillLevel: string;
+  setOverallScore: (score: number) => void;
 };
 
 type MediaStreamButtonProps = {
@@ -61,6 +64,9 @@ function ControlTray({
   children,
   onVideoStreamChange = () => {},
   supportsVideo,
+  role,
+  skillLevel,
+  setOverallScore,
 }: ControlTrayProps) {
   const videoStreams = [useWebcam(), useScreenCapture()];
   const [activeVideoStream, setActiveVideoStream] =
@@ -156,6 +162,13 @@ function ControlTray({
     videoStreams.filter((msr) => msr !== next).forEach((msr) => msr.stop());
   };
 
+  const calculateOverallScore = () => {
+    // Placeholder function to calculate the overall score
+    // You can implement the actual logic here
+    const score = Math.floor(Math.random() * 100);
+    setOverallScore(score);
+  };
+
   return (
     <section className="control-tray">
       <canvas style={{ display: "none" }} ref={renderCanvasRef} />
@@ -209,6 +222,10 @@ function ControlTray({
           </button>
         </div>
         <span className="text-indicator">Streaming</span>
+      </div>
+
+      <div className="interview-controls">
+        <button onClick={calculateOverallScore}>Calculate Overall Score</button>
       </div>
     </section>
   );

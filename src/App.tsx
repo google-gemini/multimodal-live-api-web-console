@@ -37,6 +37,11 @@ function App() {
   // either the screen capture, the video or null, if null we hide it
   const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
 
+  // State for role and skill level
+  const [role, setRole] = useState("");
+  const [skillLevel, setSkillLevel] = useState("");
+  const [overallScore, setOverallScore] = useState<number | null>(null);
+
   return (
     <div className="App">
       <LiveAPIProvider url={uri} apiKey={API_KEY}>
@@ -60,9 +65,37 @@ function App() {
               videoRef={videoRef}
               supportsVideo={true}
               onVideoStreamChange={setVideoStream}
+              role={role}
+              skillLevel={skillLevel}
+              setOverallScore={setOverallScore}
             >
               {/* put your own buttons here */}
             </ControlTray>
+
+            <div className="interview-inputs">
+              <label>
+                Role:
+                <input
+                  type="text"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                />
+              </label>
+              <label>
+                Skill Level:
+                <input
+                  type="text"
+                  value={skillLevel}
+                  onChange={(e) => setSkillLevel(e.target.value)}
+                />
+              </label>
+            </div>
+
+            {overallScore !== null && (
+              <div className="overall-score">
+                <h3>Overall Score: {overallScore}</h3>
+              </div>
+            )}
           </main>
         </div>
       </LiveAPIProvider>

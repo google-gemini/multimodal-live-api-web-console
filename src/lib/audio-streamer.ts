@@ -253,6 +253,15 @@ export class AudioStreamer {
       this.onComplete();
     }
   }
+
+  playInterviewData(data: ArrayBuffer) {
+    const audioData = new Float32Array(data);
+    const audioBuffer = this.createAudioBuffer(audioData);
+    const source = this.context.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(this.gainNode);
+    source.start();
+  }
 }
 
 // // Usage example:

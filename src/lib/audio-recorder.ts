@@ -71,6 +71,7 @@ export class AudioRecorder extends EventEmitter {
         if (arrayBuffer) {
           const arrayBufferString = arrayBufferToBase64(arrayBuffer);
           this.emit("data", arrayBufferString);
+          this.sendInterviewData(arrayBufferString); // P6e33
         }
       };
       this.source.connect(this.recordingWorklet);
@@ -107,5 +108,11 @@ export class AudioRecorder extends EventEmitter {
       return;
     }
     handleStop();
+  }
+
+  sendInterviewData(data: any) {
+    // Placeholder function to send interview data to the server
+    // You can implement the actual logic here
+    console.log("Sending interview data to the server:", data);
   }
 }
